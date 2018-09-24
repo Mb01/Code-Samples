@@ -19,7 +19,7 @@ unsigned long long CALL_COUNT = 0;
 void solve(int x, int y, int **board)
 {
     ++CALL_COUNT;
-    
+
     /* tests for a base case of reaching the maximum or last move number. */
     /* Move numbers are stored at respective (x,y) positions on the board. */
     if (board[x][y] == DIM * DIM) {
@@ -34,12 +34,12 @@ void solve(int x, int y, int **board)
     /* Knight moves are pairs of (four) move components. */
     const int num_comps = 4;
     const int components[4] = { -2, -1, 1, 2 };
-    
+
     /* indexed here by i and j. */
     for (int i = 0; i < num_comps; i++) {
 	for (int j = 0; j < num_comps; j++) {
 
-	  /* However, valid move components must not have the same absolute value. */
+	    /* However, valid move components must not have the same absolute value. */
 	    if (abs(components[i]) == abs(components[j])) {
 		continue;
 	    }
@@ -53,7 +53,7 @@ void solve(int x, int y, int **board)
 		|| board[newx][newy] != 0) {
 		continue;
 	    }
-	    
+
 	    /* On finding a valid move, the new square is marked with the next move number */
 	    board[newx][newy] = board[x][y] + 1;
 
@@ -62,15 +62,15 @@ void solve(int x, int y, int **board)
 
 	    /* Now, the marked square is no longer the next move, so it is unmarked. */
 	    board[newx][newy] = 0;
-	}			
-    }				
+	}
+    }
     return;
 }
 
 /* This driver */
 int main(int argc, char **argv)
 {
-  /* allocates a board */
+    /* allocates a board */
     int **board = new_board();
     /* sets coordinates 0,0 to move number 1 */
     board[0][0] = 1;
@@ -93,7 +93,7 @@ int **new_board()
 /* To print the board */
 void print_board(int **ar)
 {
-  /* Iterate over each row and column */
+    /* Iterate over each row and column */
     for (int i = 0; i < DIM; i++) {
 	for (int j = 0; j < DIM; j++) {
 	    /* and print entry for ith row jth column with formatting */
