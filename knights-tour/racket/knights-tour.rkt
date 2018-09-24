@@ -6,6 +6,7 @@
 ;; initialized to zero.
 (define dimension 8)
 
+;; display formatted text
 (define df (lambda args
   (displayln (apply format args))))
 
@@ -32,12 +33,9 @@
     (cond
       [(or (>= (max next-x next-y) dimension) ; off the board
            (< (min next-x next-y) 0) ;; off the board
-           (not (zero? (board-ref next-x next-y)))) ; already used`
+           (not (zero? (board-ref next-x next-y)))) ; already used
        #f] ; then we can't go there
       [else
-       ;(df "going from ~a, ~a to ~a, ~a using move ~a" x y next-x next-y move)
-       ;(display-board)
-       ;(newline) (newline)
        (update-board next-x next-y (add1 current-move))
        (search next-x next-y)])))
 
@@ -46,17 +44,31 @@
     [(null? moves) (void)]
     [else (try (car moves) x y) (try-all (cdr moves) x y)]))
 
+;; REMINDER: refactor/readability when rewriting
+(define (try-corner-then-all moves x y)
+  (define (available-corner? x y)
+    (let ([dim (sub1 dimension)])
+      (and (or (= x 0) (= x dim))   (or (= y 0) (= y dim)))))
+  (cond
+    [(null? moves) (try-all knight-moves x y)] ; then try other moves
+    [(available-corner? (first (car moves)) (second (car moves)))
+     (try (car moves) x y) ; try the corner
+     (try-all knight-moves x y)] ; and then try all knight moves
+    [else (try-corner-then-all (cdr moves) x y)]))
+
 (define (search x y)
   (set! count (add1 count))
   (let ([current-move (board-ref x y)])
-    (when (zero? (modulo count 1000000)) (displayln count) (display-board))
     (cond
-      ;[(> current-move 60) (display-board)]
-      ;[(> count 20000000) (void)] ;; run out of time, reject moves
-      [(= current-move (- (sqr dimension)) 1) (display-board)]
-      [else (try-all knight-moves x y)])
+      [(= current-move (sqr dimension)) (display-board)]
+      [else (try-corner-then-all knight-moves x y)])
     (update-board x y 0))) ; clean up mutable data
 
-;(search 0 0)
+;; set the first move to 1
+(update-board 0 0 1)
 
+;; search
+(search 0 0)
+
+;; display final board
 board
