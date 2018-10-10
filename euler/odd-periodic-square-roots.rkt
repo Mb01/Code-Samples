@@ -1,31 +1,32 @@
 #lang racket
 
-;; All square roots are periodic when written as continued fractions and can be written in the form:
+;; (solve n) -> list
+;; n is natural number > 1
+;; the list represents the continued fraction form of sqrt(n)
 
-;; see problem description
 
-;; Exactly four continued fractions, for N ≤ 13, have an odd period.
-;; How many continued fractions for N ≤ 10000 have an odd period?
-
-;; see project Euler problem 64
+;; the following is adapted from my answer to
+;; Project Euler problem 64:
+;; https://projecteuler.net/problem=64
 
 ;; (note that I have redacted much of the solution)
 
-;; Since I didn't read up on the material before attempting the problem, the terminology might be awkward. Many number theory books as well as The Art of Computer Programming vol. 2 (Knuth) cover this. Fascinating.
-
-;; Anyway,
+;; Since I didn't read up on the material before attempting the problem, the terminology might be awkward. Many number theory books as well as The Art of Computer Programming vol. 2 (Knuth) cover this.
 
 ;; let's walk through the example
+;; I retain three numbers representing this form "(sqrt(a) + b) / c"
+;; that is
 ;;     sqrt(23) = (sq23 + 0) / 1 =
 
-;; ** While positive, move ones out of the fraction 0 +  5/4 -> 1 + 1/4 **
+;; ** While positive, move ones out of the fraction **
 ;;     4 + (sq23 - 4) / 1  = 
 
 ;; ** then "continued-fractionify" **
 ;;     4 + 1 / (1 / (sq23 - 4)) 
-;;     (the 4 on the left is part of the answer)
+;;     (the 4 on the left is part of the answer and we continue with)
 ;;     1 / (sq23 - 4)
 
+;; ** to return to the appropriate form **
 ;; ** rationalize the denominator by multiplying with conjugate **
 ;;     1 / (sq23 - 4) * (sq23 + 4) / (sq23 + 4) => (sq23 + 4) / 7
 
@@ -47,8 +48,7 @@
 ;; ones = factor-out-ones(root-of, add, den)
 
 ;; How many ones can we remove from the fraction
-;; while the fraction is still positive?
-;; This is really not the ideal way, but sufficient, to define this.
+;; while the fraction is still positive? 
 (define (factor-out-ones root-of addend denominator)
   (cond
     [(> (sqr addend) root-of) -1]
