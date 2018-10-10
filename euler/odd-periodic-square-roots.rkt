@@ -36,7 +36,7 @@
 ;; a / (sqrt(b) + c) =
 ;; a (sqrt(b) - c) / (b - c^2)
 
-;; ====== BRIEF EXPLANATION ======
+;; ====== BRIEF EXPLANATION ====== Todo: formal proof
 
 ;; I haven't proven it, but I guess this always simplifies to:
 
