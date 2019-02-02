@@ -2,18 +2,15 @@
 
 ;; (solve n) -> list
 ;; n is natural number > 1
-;; the list represents the continued fraction form of sqrt(n)
 
+;; the resulting list represents the continued fraction form of sqrt(n)
 
-;; the following is adapted from my answer to
+;; this is adapted from my solution to
 ;; Project Euler problem 64:
 ;; https://projecteuler.net/problem=64
 
-;; (note that I have redacted much of the solution)
+;; The example from the problem on project euler:
 
-;; Since I didn't read up on the material before attempting the problem, the terminology might be awkward. Many number theory books as well as The Art of Computer Programming vol. 2 (Knuth) cover this.
-
-;; let's walk through the example
 ;; I retain three numbers representing this form "(sqrt(a) + b) / c"
 ;; that is
 ;;     sqrt(23) = (sq23 + 0) / 1 =
